@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Szczegóły powiatu
+{% endblock %}
+
+{% block main %}
+<div class="w-full md:w-1/2 bg-white bg-opacity-80 p-6 rounded-lg shadow-md mx-auto text-center">
+    <h2 class="text-2xl font-semibold mb-4 text-red-800">{{ miasto.name }}</h2>
+
+    <div class="w-full md:w-1/2 mx-auto">
+        <img class="mx-auto" src="{{ miasto.get_info.img }}" />
+        <ul class="list-disc pl-6 list-inside text-left">
+            <li>Maksymalna temperatura: {{ miasto.get_info.maxtemp_c }}</li>
+            <li>Minimalna temperatura: {{ miasto.get_info.mintemp_c }}</li>
+            <li>Średnia temperatura: {{ miasto.get_info.avgtemp_c }}</li>
+            <li>Maksymalna prędkość wiatru {{ miasto.get_info.maxwind_kph }}km/h</li>
+            <li>Średnia wilgotność: {{ miasto.get_info.avghumidity }}</li>
+            <li>Średnia widoczność: {{ miasto.get_info.avgvis_km }}km</li>
+        </ul>
+
+    </div>
+</div>
+
+{% endblock %}

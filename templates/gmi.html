@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Szczegóły gmin
+{% endblock %}
+
+{% block main %}
+
+<div class="flex space-x-8">
+        <div class="w-1/3">
+            <div class="text-center bg-white bg-opacity-80 p-6 rounded-lg shadow-md mb-6">
+                <h2 class="text-2xl font-semibold mb-4 text-red-800">Gmina: {{ gmi.name }}</h2>
+            </div>
+        </div>
+
+        <div class="w-2/3">
+            <div class="text-center">
+                    <h1 class="text-2xl font-semibold mt-4 mb-4 text-red-800">Miasta</h1>
+                </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {% for city in gmi.miasta.all %}
+                <a href="{% url 'miasto' city.id %}" class="hover:no-underline">
+                    <div class="bg-red-300 bg-opacity-50 p-4 rounded-lg shadow-md hover:bg-red-400 transition-colors duration-300">
+                        <h3 class="text-lg font-semibold mb-2">{{ city.name }}</h3>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Szczegóły województw
+{% endblock %}
+
+{% block main %}
+
+    <div class="flex space-x-9">
+            <div class="w-1/3">
+                <div class="bg-white bg-opacity-80 p-6 rounded-lg shadow-md mb-6">
+                    <h2 class="text-2xl font-semibold mb-4 text-red-800">Województwo {{ woj.name|title }}:</h2>
+                    <ul class="list-disc pl-6">
+                        <li class="mb-2">Powierzchnia: {{ woj.get_data.dane.Powierzchnia }}</li>
+                        <li class="mb-2">Liczba ludności: {{ woj.get_data.dane.Liczba_ludności }}</li>
+                        <li class="mb-2">Gęstość zaludnienia: {{ woj.get_data.dane.Gęstość_zaludnienia }}</li>
+                        <li>Główne miasta: {{ woj.get_data.dane.Główne_miasta }}</li>
+                    </ul>
+                </div>
+                <div class="p-4">
+                    <img src="https://www.paih.gov.pl{{ woj.get_data.dane.img }}" />
+                </div>
+            </div>
+
+            <div class="w-2/3">
+
+                <div class="text-center">
+                    <h1 class="text-2xl font-semibold mt-4 mb-4 text-red-800">Powiaty</h1>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    {% for pow in woj.powiaty.all %}
+                        <a href="{% url 'gmi' pow.id %}">
+                            <div class="bg-red-300 bg-opacity-50 p-4 rounded-lg shadow-md hover:bg-red-400 transition-colors duration-300">
+                                <h3 class="text-xl font-semibold mb-1">{{ pow.name }}</h3>
+                                <p class="text-gray-600">Ilość gmin: {{ pow.gminy.count }}</p>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+    </div>
+
+{% endblock %}
