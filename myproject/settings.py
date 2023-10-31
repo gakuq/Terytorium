@@ -10,10 +10,16 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+import sys
 from pathlib import Path
 from dotenv import load_dotenv
+from django import forms
+from django.db import models
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+sys.path.append(os.path.join(BASE_DIR, 'modules'))
 
 load_dotenv(os.path.join(BASE_DIR, ".env"))
 
@@ -26,7 +32,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,7 +44,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'PodzialPolski'
+    'PodzialPolski',
+    'widget_tweaks',
+    'abstacktheme',
+    'compose',
+    'compose.regions',
+    'compose.contrib.datatables',
+    'django_sass',
 ]
 
 MIDDLEWARE = [
@@ -49,7 +61,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'compose.regions.middleware.RegionInfoMiddleware',
 ]
+COMPOSE = {
+    #    'DEFAULT_PERMISSION_CLASSES': (
+        # jeżeli chcemy pilnowac login:
+     #       'compose.permissions.IsAuthenticated',
+     #   ),
+       'FORMFIELD_FOR_DBFIELD_DEFAULTS': { models.DateField: {'widget': forms.DateInput(attrs={'class': 'dateselect', 'autocomplete': 'off', 'date_format': 'dd.mm.yyyy'})}}
+    }
 
 ROOT_URLCONF = 'myproject.urls'
 
@@ -64,6 +84,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+            ],
+            'builtins': [
+                'compose.regions.templatetags.regions',
+                'compose.builtinfilters',
             ],
         },
     },
